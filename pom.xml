@@ -49,7 +49,7 @@
 
   <scm>
     <url>https://github.com/kifj/service-registry</url>
-    <connection>scm:git:git://github.com/kifj/service-registry.git</connection>
+    <connection>scm:git:git@github.com:kifj/service-registry.git</connection>
   </scm>
 
   <ciManagement>
