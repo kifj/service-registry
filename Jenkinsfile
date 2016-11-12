@@ -8,5 +8,5 @@ node {
   sh "${mvnHome}/bin/mvn clean package"
   
   stage 'Publish'
-  sh "${mvnHome}/bin/mvn -Prpm deploy site-deploy -DskipTests"
+  sh "${mvnHome}/bin/mvn deploy site-deploy -DskipTests"
 }
