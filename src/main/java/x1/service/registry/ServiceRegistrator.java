@@ -257,7 +257,6 @@ public class ServiceRegistrator {
       }
       return (Integer) mbeanServer.getAttribute(name, "port");
     } catch (Exception e) {
-      LOG.error(null, e);
       return null;
     }
   }

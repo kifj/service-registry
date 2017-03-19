@@ -154,7 +154,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.5</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -207,7 +207,7 @@
             <plugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>findbugs-maven-plugin</artifactId>
-              <version>3.0.3</version>
+              <version>3.0.4</version>
               <configuration>
                 <xmlOutput>true</xmlOutput>
                 <!-- <excludeFilterFile>etc/findbugs-exclude.xml</excludeFilterFile> -->
