@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>x1.jboss</groupId>
   <artifactId>service-registry</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.4-SNAPSHOT</version>
   <name>service-registry</name>
   <inceptionYear>2016</inceptionYear>
   <description>A service registry for Wildfly and etcd</description>
@@ -50,6 +50,7 @@
     <url>https://github.com/kifj/service-registry</url>
     <connection>scm:git:git@github.com:kifj/service-registry.git</connection>
     <developerConnection>scm:git:git@github.com:kifj/service-registry.git</developerConnection>
+    <tag>HEAD</tag>
   </scm>
 
   <ciManagement>
@@ -155,6 +156,11 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.5</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
