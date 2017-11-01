@@ -2,6 +2,7 @@ package x1.service.etcd;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -114,7 +115,7 @@ public class EtcdClient implements AutoCloseable {
   public List<Node> listDirectory(String key) throws ClientException {
     Result result = get(key);
     if (result == null || result.getNode() == null) {
-      return null;
+      return new ArrayList<>();
     }
     return result.getNode().getNodes();
   }
@@ -188,8 +189,7 @@ public class EtcdClient implements AutoCloseable {
   public Result listChildren(String key) throws ClientException {
     URI uri = buildKeyUri(PATH_KEYS, key).build();
     HttpGet request = new HttpGet(uri);
-    Result result = syncExecute(request, new Status[] { Status.OK });
-    return result;
+    return syncExecute(request, new Status[] { Status.OK });
   }
 
   protected ListenableFuture<Result> asyncExecute(HttpUriRequest request, Status[] expectedHttpStatusCodes,
@@ -209,13 +209,10 @@ public class EtcdClient implements AutoCloseable {
       return asyncExecute(request, expectedHttpStatusCodes, expectedErrorCodes).get();
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-
       throw new ClientException("Interrupted during request", e);
     } catch (ExecutionException e) {
       throw unwrap(e);
     }
-    // String json = syncExecuteJson(request);
-    // return jsonToResult(json, expectedErrorCodes);
   }
 
   private ClientException unwrap(ExecutionException e) {
@@ -232,10 +229,8 @@ public class EtcdClient implements AutoCloseable {
     }
     Result result = parseResult(response.json);
 
-    if (result.isError()) {
-      if (!contains(expectedErrorCodes, result.getErrorCode())) {
-        throw new ClientException(result.getMessage(), result);
-      }
+    if (result.isError() && !contains(expectedErrorCodes, result.getErrorCode())) {
+      throw new ClientException(result.getMessage(), result);
     }
     return result;
   }
@@ -271,8 +266,7 @@ public class EtcdClient implements AutoCloseable {
     }
   }
 
-  private ListenableFuture<JsonResponse> asyncExecuteJson(HttpUriRequest request, Status[] expectedHttpStatusCodes)
-      throws ClientException {
+  private ListenableFuture<JsonResponse> asyncExecuteJson(HttpUriRequest request, Status[] expectedHttpStatusCodes) {
     ListenableFuture<HttpResponse> response = asyncExecuteHttp(request);
 
     return Futures.transform(response, new AsyncFunction<HttpResponse, JsonResponse>() {
