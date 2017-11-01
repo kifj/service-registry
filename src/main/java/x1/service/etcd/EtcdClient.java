@@ -143,14 +143,14 @@ public class EtcdClient implements AutoCloseable {
   /**
    * Watches the given subtree
    */
-  public ListenableFuture<Result> watch(String key) throws ClientException {
+  public ListenableFuture<Result> watch(String key) {
     return watch(key, null, false);
   }
 
   /**
    * Watches the given subtree
    */
-  public ListenableFuture<Result> watch(String key, Long index, boolean recursive) throws ClientException {
+  public ListenableFuture<Result> watch(String key, Long index, boolean recursive) {
     UriBuilder builder = buildKeyUri(PATH_KEYS, key).queryParam("wait", "true").queryParam("recursive", recursive);
     if (index != null) {
       builder = builder.queryParam("waitIndex", index);
@@ -193,7 +193,7 @@ public class EtcdClient implements AutoCloseable {
   }
 
   protected ListenableFuture<Result> asyncExecute(HttpUriRequest request, Status[] expectedHttpStatusCodes,
-      final Integer... expectedErrorCodes) throws ClientException {
+      final Integer... expectedErrorCodes) {
     ListenableFuture<JsonResponse> json = asyncExecuteJson(request, expectedHttpStatusCodes);
     return Futures.transform(json, new AsyncFunction<JsonResponse, Result>() {
       public ListenableFuture<Result> apply(JsonResponse json) throws Exception {
