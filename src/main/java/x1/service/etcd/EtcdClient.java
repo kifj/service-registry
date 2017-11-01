@@ -61,10 +61,8 @@ public class EtcdClient implements AutoCloseable {
     HttpGet request = new HttpGet(uri);
 
     Result result = syncExecute(request, new Status[] { Status.OK, Status.NOT_FOUND }, ECODE_KEY_NOT_FOUND);
-    if (result.isError()) {
-      if (ECODE_KEY_NOT_FOUND.equals(result.getErrorCode())) {
-        return null;
-      }
+    if (result.isError() && ECODE_KEY_NOT_FOUND.equals(result.getErrorCode())) {
+      return null;
     }
     return result;
   }
