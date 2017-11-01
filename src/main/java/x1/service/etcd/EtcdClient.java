@@ -195,7 +195,7 @@ public class EtcdClient implements AutoCloseable {
   protected ListenableFuture<Result> asyncExecute(HttpUriRequest request, Status[] expectedHttpStatusCodes,
       final Integer... expectedErrorCodes) {
     ListenableFuture<JsonResponse> json = asyncExecuteJson(request, expectedHttpStatusCodes);
-    return Futures.transform(json, new AsyncFunction<JsonResponse, Result>() {
+    return Futures.transformAsync(json, new AsyncFunction<JsonResponse, Result>() {
       public ListenableFuture<Result> apply(JsonResponse json) throws Exception {
         Result result = jsonToResult(json, expectedErrorCodes);
         return Futures.immediateFuture(result);
@@ -269,7 +269,7 @@ public class EtcdClient implements AutoCloseable {
   private ListenableFuture<JsonResponse> asyncExecuteJson(HttpUriRequest request, Status[] expectedHttpStatusCodes) {
     ListenableFuture<HttpResponse> response = asyncExecuteHttp(request);
 
-    return Futures.transform(response, new AsyncFunction<HttpResponse, JsonResponse>() {
+    return Futures.transformAsync(response, new AsyncFunction<HttpResponse, JsonResponse>() {
       public ListenableFuture<JsonResponse> apply(HttpResponse httpResponse) throws Exception {
         JsonResponse json = extractJsonResponse(httpResponse, expectedHttpStatusCodes);
         return Futures.immediateFuture(json);
