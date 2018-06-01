@@ -29,6 +29,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -198,7 +199,7 @@ public class EtcdClient implements AutoCloseable {
         Result result = jsonToResult(json, expectedErrorCodes);
         return Futures.immediateFuture(result);
       }
-    });
+    }, MoreExecutors.directExecutor());
   }
 
   protected Result syncExecute(HttpUriRequest request, Status[] expectedHttpStatusCodes, Integer... expectedErrorCodes)
@@ -272,7 +273,7 @@ public class EtcdClient implements AutoCloseable {
         JsonResponse json = extractJsonResponse(httpResponse, expectedHttpStatusCodes);
         return Futures.immediateFuture(json);
       }
-    });
+    }, MoreExecutors.directExecutor());
   }
 
   /**

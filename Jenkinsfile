@@ -1,8 +1,8 @@
 node {
-  def mvnHome = tool 'Maven-3.3'
+  def mvnHome = tool 'Maven-3.5'
   
   stage('Checkout') {
-    git url: 'https://github.com/kifj/service-registry.git', branch: 'wildfly-12'
+    git url: 'https://github.com/kifj/service-registry.git', branch: 'wildfly-13'
   }
   
   stage('Build') {
