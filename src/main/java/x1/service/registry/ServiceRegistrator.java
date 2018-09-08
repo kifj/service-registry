@@ -58,6 +58,9 @@ public class ServiceRegistrator {
 
   @Schedule(hour = "*", minute = "*/5", second = "0", persistent = false)
   public void update() {
+    if (!checkRunningServer()) {
+      return;
+    }
     URI uri = URI.create(System.getProperty(ETCD_SERVICE, EtcdClient.DEFAULT_ETCD_SERVICE));
     try (EtcdClient etcd = new EtcdClient(uri)) {
       LOG.info("connecting to etcd at {} -> version={}", uri, etcd.version());
@@ -68,6 +71,17 @@ public class ServiceRegistrator {
       Reflections reflections = new Reflections(packageName);
       reflections.getTypesAnnotatedWith(Service.class).forEach(this::register);
       reflections.getTypesAnnotatedWith(Services.class).forEach(this::registerAll);
+    }
+  }
+
+  private boolean checkRunningServer() {
+    try {
+      ObjectName name = new ObjectName("jboss.as:management-root=server");
+      String status = (String) mbeanServer.getAttribute(name, "serverState");
+      return StringUtils.equalsIgnoreCase(status, "running");
+    } catch (Exception e) {
+      LOG.warn(e.getMessage());
+      return false;
     }
   }
 
