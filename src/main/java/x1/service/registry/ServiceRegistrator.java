@@ -13,6 +13,7 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -78,7 +79,7 @@ public class ServiceRegistrator {
     try {
       ObjectName name = new ObjectName("jboss.as:management-root=server");
       String status = (String) mbeanServer.getAttribute(name, "serverState");
-      return StringUtils.equalsIgnoreCase(status, "running");
+      return Arrays.asList("running", "reload-required", "restart-required").contains(status.toLowerCase());
     } catch (Exception e) {
       LOG.warn(e.getMessage());
       return false;
@@ -221,8 +222,12 @@ public class ServiceRegistrator {
       for (Protocol protocol : service.protocols()) {
         LOG.info("unregister ({}) at etcd({})", service, uri);
         String file = getDirectory(serviceClass, service, protocol) + "/" + getHostName();
-        Result result = etcd.delete(file);
-        LOG.debug("delete {} -> {}", file, result);
+        try {
+          Result result = etcd.delete(file);
+          LOG.debug("delete {} -> {}", file, result);
+        } catch (ClientException e) {
+          LOG.warn(e.getMessage());
+        }
       }
     } catch (IOException e) {
       LOG.error(null, e);
