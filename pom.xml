@@ -163,7 +163,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>3.8.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -231,7 +231,7 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.5</version>
+        <version>3.1.7</version>
         <configuration>
           <xmlOutput>true</xmlOutput>          
         </configuration>
