@@ -11,7 +11,7 @@ public enum Technology {
   STOMP(Constants.BASE_URI), 
   AMQP(Constants.BASE_URI);
 
-  private Technology(String propertyName) {
+  Technology(String propertyName) {
     this.propertyName = propertyName;
   }
 
