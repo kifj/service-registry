@@ -2,7 +2,7 @@ node {
   def mvnHome = tool 'Maven-3.6'
   
   stage('Checkout') {
-    git url: 'https://github.com/kifj/service-registry.git', branch: 'wildfly-14'
+    git url: 'https://github.com/kifj/service-registry.git', branch: 'wildfly-15'
   }
   
   stage('Build') {
@@ -14,6 +14,6 @@ node {
   }
 
   stage('Sonar') {
-    sh "${mvnHome}/bin/mvn sonar:sonar -DskipTests -Dsonar.java.coveragePlugin=jacoco -Dsonar.jacoco.reportPath=target/jacoco.exec -Dsonar.host.url=https://www.x1/sonar -Dsonar.branch=wildfly-14"
+    sh "${mvnHome}/bin/mvn sonar:sonar -DskipTests -Dsonar.java.coveragePlugin=jacoco -Dsonar.jacoco.reportPath=target/jacoco.exec -Dsonar.host.url=https://www.x1/sonar -Dsonar.branch=wildfly-15"
   }
 }
