@@ -55,7 +55,7 @@
 
   <ciManagement>
     <system>Jenkins</system>
-    <url>http://www.x1/jenkins/view/kifj/job/kifj/job/service-registry/job/wildfly-13/</url>
+    <url>http://www.x1/jenkins/view/kifj/job/kifj/job/service-registry/job/wildfly-16/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
@@ -91,7 +91,7 @@
       <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-spec-api</artifactId>
-        <version>15.0.0.Final</version>
+        <version>16.0.0.Final</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -231,7 +231,7 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.10</version>
+        <version>3.1.11</version>
         <configuration>
           <xmlOutput>true</xmlOutput>          
         </configuration>
