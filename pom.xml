@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>x1.wildfly</groupId>
   <artifactId>service-registry</artifactId>
-  <version>1.2.3-SNAPSHOT</version>
+  <version>1.2.3</version>
   <name>service-registry</name>
   <inceptionYear>2016</inceptionYear>
   <description>A service registry for wildfly and etcd</description>
@@ -50,7 +50,7 @@
     <url>https://github.com/kifj/service-registry</url>
     <connection>scm:git:git@github.com:kifj/service-registry.git</connection>
     <developerConnection>scm:git:git@github.com:kifj/service-registry.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>service-registry-1.2.3</tag>
   </scm>
 
   <ciManagement>
