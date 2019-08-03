@@ -44,7 +44,8 @@ public class EtcdClient implements AutoCloseable {
   private final URI baseUri;
 
   private static CloseableHttpAsyncClient buildDefaultHttpClient() {
-    RequestConfig requestConfig = RequestConfig.custom().build();
+    RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(1000)
+      .setConnectTimeout(1000).setConnectionRequestTimeout(1000).build();
     CloseableHttpAsyncClient httpClient = HttpAsyncClients.custom().setDefaultRequestConfig(requestConfig).build();
     httpClient.start();
     return httpClient;
