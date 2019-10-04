@@ -12,7 +12,7 @@ public class DeploymentListener implements ServletContextListener {
 
   @Override
   public void contextDestroyed(ServletContextEvent e) {
-
+    registrator.stop();
   }
 
   @Override

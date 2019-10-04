@@ -38,6 +38,7 @@ public class ServiceRegistrator {
   private MBeanServer mbeanServer;
   private Properties properties = new Properties();
   private String[] basePackages;
+  private boolean stopped;
 
   @Inject
   private ServletContext context;
@@ -75,6 +76,10 @@ public class ServiceRegistrator {
     }
   }
 
+  public void stop() {
+    stopped = true;
+  }
+
   private boolean checkRunningServer() {
     try {
       ObjectName name = new ObjectName("jboss.as:management-root=server");
@@ -109,6 +114,9 @@ public class ServiceRegistrator {
     URI uri = URI.create(System.getProperty(ETCD_SERVICE, EtcdClient.DEFAULT_ETCD_SERVICE));
     try (EtcdClient etcd = new EtcdClient(uri)) {
       for (Protocol protocol : service.protocols()) {
+        if (stopped) {
+          break;
+        }
         LOG.info("register ({}) at etcd({})", service, uri);
         String directory = getDirectory(serviceClass, service, protocol);
         ensureDirectoryExists(etcd, directory);
