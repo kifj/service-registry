@@ -55,7 +55,7 @@
 
   <ciManagement>
     <system>Jenkins</system>
-    <url>http://www.x1/jenkins/view/kifj/job/kifj/job/service-registry/job/wildfly-18/</url>
+    <url>https://www.x1/jenkins/view/kifj/job/kifj/job/service-registry/job/wildfly-18/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
@@ -164,7 +164,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.8.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -180,7 +180,7 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav-jackrabbit</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.3</version>
       </extension>
     </extensions>
   </build>
