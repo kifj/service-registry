@@ -1,5 +1,6 @@
 node {
   def mvnHome = tool 'Maven-3.6'
+  env.JAVA_HOME = tool 'JDK-1.8'
   
   stage('Checkout') {
     git url: 'https://github.com/kifj/service-registry.git', branch: 'wildfly-10'
