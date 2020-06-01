@@ -230,15 +230,19 @@ public class ServiceRegistrator {
       for (Protocol protocol : service.protocols()) {
         LOG.info("unregister ({}) at etcd({})", service, uri);
         String file = getDirectory(serviceClass, service, protocol) + "/" + getHostName();
-        try {
-          Result result = etcd.delete(file);
-          LOG.debug("delete {} -> {}", file, result);
-        } catch (ClientException e) {
-          LOG.warn(e.getMessage());
-        }
+        unregister(etcd, file);
       }
     } catch (IOException e) {
       LOG.error(null, e);
+    }
+  }
+
+  private void unregister(EtcdClient etcd, String file) {
+    try {
+      Result result = etcd.delete(file);
+      LOG.debug("delete {} -> {}", file, result);
+    } catch (ClientException e) {
+      LOG.warn(e.getMessage());
     }
   }
 
