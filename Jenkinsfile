@@ -2,7 +2,7 @@ node {
   def mvnHome = tool 'Maven-3.6'
   
   stage('Checkout') {
-    git url: 'https://github.com/kifj/service-registry.git', branch: 'wildfly-21'
+    checkout scm
   }
   
   stage('Build') {
