@@ -3,7 +3,7 @@ node {
   env.JAVA_HOME = tool 'JDK-1.8'
   
   stage('Checkout') {
-    git url: 'https://github.com/kifj/service-registry.git', branch: 'wildfly-10'
+    checkout scm
   }
   
   stage('Build') {
