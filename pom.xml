@@ -91,7 +91,7 @@
       <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-spec-api</artifactId>
-        <version>21.0.2.Final</version>
+        <version>22.0.0.Final</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
