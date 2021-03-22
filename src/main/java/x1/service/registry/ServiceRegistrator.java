@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,22 @@ public class ServiceRegistrator {
   private Properties properties = new Properties();
   private String[] basePackages;
   private boolean stopped;
+  
+  @Inject
+  @ConfigProperty(name = ETCD_SERVICE, defaultValue = EtcdClient.DEFAULT_ETCD_SERVICE)
+  private URI etcdService;
+  
+  @Inject
+  @ConfigProperty(name = "x1.service.registry.registerIp", defaultValue = "false")
+  private boolean registerIp;
+  
+  @Inject
+  @ConfigProperty(name ="x1.service.registry.prefix", defaultValue = "/x1")
+  private String prefix;
+  
+  @Inject
+  @ConfigProperty(name = "x1.service.registry.stage", defaultValue = "local")
+  private String stage;
 
   @Inject
   private ServletContext context;
@@ -63,11 +80,10 @@ public class ServiceRegistrator {
     if (!checkRunningServer()) {
       return;
     }
-    URI uri = URI.create(System.getProperty(ETCD_SERVICE, EtcdClient.DEFAULT_ETCD_SERVICE));
-    try (EtcdClient etcd = new EtcdClient(uri)) {
-      LOG.info("connecting to etcd at {} -> version={}", uri, etcd.version());
+    try (EtcdClient etcd = new EtcdClient(etcdService)) {
+      LOG.info("connecting to etcd at {} -> version={}", etcdService, etcd.version());
     } catch (Exception e) {
-      LOG.error("connection failure for etcd at " + uri, e);
+      LOG.error("connection failure for etcd at " + etcdService, e);
     }
     for (String packageName : basePackages) {
       Reflections reflections = new Reflections(packageName);
@@ -111,13 +127,12 @@ public class ServiceRegistrator {
   }
 
   private void register(Class<?> serviceClass, Service service) {
-    URI uri = URI.create(System.getProperty(ETCD_SERVICE, EtcdClient.DEFAULT_ETCD_SERVICE));
-    try (EtcdClient etcd = new EtcdClient(uri)) {
+    try (EtcdClient etcd = new EtcdClient(etcdService)) {
       for (Protocol protocol : service.protocols()) {
         if (stopped) {
           break;
         }
-        LOG.info("register ({}) at etcd({})", service, uri);
+        LOG.info("register ({}) at etcd({})", service, etcdService);
         String directory = getDirectory(serviceClass, service, protocol);
         ensureDirectoryExists(etcd, directory);
         String hostName = getHostName();
@@ -144,11 +159,8 @@ public class ServiceRegistrator {
   }
 
   private String getDirectory(Class<?> serviceClass, Service service, Protocol protocol) {
-    String prefix = System.getProperty("x1.service.registry.prefix", "/x1").toLowerCase();
-    String stage = System.getProperty("x1.service.registry.stage", "local").toLowerCase();
-
     return prefix + "/" + service.technology().name().toLowerCase() + "/" + serviceClass.getName() + "/"
-        + service.version() + "/" + protocol.name().toLowerCase() + "/" + stage;
+        + service.version() + "/" + protocol.name().toLowerCase() + "/" + stage.toLowerCase();
   }
 
   private String getValue(Service service, Protocol protocol, String hostName) {
@@ -225,10 +237,9 @@ public class ServiceRegistrator {
   }
 
   private void unregister(Class<?> serviceClass, Service service) {
-    URI uri = URI.create(System.getProperty(ETCD_SERVICE, EtcdClient.DEFAULT_ETCD_SERVICE));
-    try (EtcdClient etcd = new EtcdClient(uri)) {
+    try (EtcdClient etcd = new EtcdClient(etcdService)) {
       for (Protocol protocol : service.protocols()) {
-        LOG.info("unregister ({}) at etcd({})", service, uri);
+        LOG.info("unregister ({}) at etcd({})", service, etcdService);
         String file = getDirectory(serviceClass, service, protocol) + "/" + getHostName();
         unregister(etcd, file);
       }
@@ -247,7 +258,6 @@ public class ServiceRegistrator {
   }
 
   private String getHostName() {
-    boolean registerIp = Boolean.getBoolean("x1.service.registry.registerIp");
     if (registerIp) {
       try {
         return InetAddress.getLocalHost().getHostAddress();
