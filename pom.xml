@@ -55,7 +55,7 @@
 
     <ciManagement>
         <system>Jenkins</system>
-        <url>https://www.x1/jenkins/view/kifj/job/kifj/job/service-registry/job/wildfly-19/</url>
+        <url>https://www.x1/jenkins/view/kifj/job/kifj/job/service-registry/job/wildfly-23/</url>
         <notifiers>
             <notifier>
                 <type>mail</type>
@@ -91,7 +91,7 @@
             <dependency>
                 <groupId>org.wildfly</groupId>
                 <artifactId>wildfly-spec-api</artifactId>
-                <version>23.0.0.Final</version>
+                <version>23.0.2.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
