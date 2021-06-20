@@ -252,4 +252,23 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <profiles>
+        <profile>
+            <id>github</id>
+            <distributionManagement>
+                <repository>
+                    <id>github-snapshots</id>
+                    <name>GitHub kifj Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/kifj/service-registry</url>
+                </repository>
+                <snapshotRepository>
+                    <id>github</id>
+                    <name>GitHub kifj Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/kifj/service-registry</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
 </project>
