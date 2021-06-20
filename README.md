@@ -2,7 +2,7 @@
 
 # service-registry
 
-A simple etcd base service registry for JBoss Wildfly
+A simple etcd base service registry for Wildfly
 
 ## How to register a service
 
