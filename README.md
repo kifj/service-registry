@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/kifj/service-registry/workflows/Java%20CI/badge.svg)](https://github.com/kifj/service-registry/actions) ![Licence](https://img.shields.io/github/license/kifj/service-registry) ![Issues](https://img.shields.io/github/issues/kifj/service-registry) ![Stars](https://img.shields.io/github/stars/kifj/service-registry)
+
 # service-registry
 
 A simple etcd base service registry for JBoss Wildfly
