@@ -13,6 +13,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Configure Git user
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
       - name: Build with Maven
         run: mvn -Pgithub -B release:prepare release:perform
         env:
