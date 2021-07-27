@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>x1.wildfly</groupId>
     <artifactId>service-registry</artifactId>
-    <version>1.2.10-SNAPSHOTS</version>
+    <version>1.2.10-SNAPSHOT</version>
     <name>service-registry</name>
     <inceptionYear>2016</inceptionYear>
     <description>A service registry for wildfly and etcd</description>
