@@ -1,5 +1,5 @@
 node {
-  def mvnHome = tool 'Maven-3.6'
+  def mvnHome = tool 'Maven-3.8'
   
   stage('Checkout') {
     checkout scm
