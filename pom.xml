@@ -6,7 +6,7 @@
     <name>service-registry</name>
     <inceptionYear>2016</inceptionYear>
     <description>A service registry for wildfly and etcd</description>
-    <url>http://maven.x1/site/x1.service/service.registry/${project.version}</url>
+    <url>https://maven.x1/site/x1.service/service.registry/${project.version}</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,7 +73,7 @@
             <id>joe</id>
             <name>Johannes Beck</name>
             <email>mail@johannes-beck.name</email>
-            <url>http://johannes-beck.name</url>
+            <url>https://johannes-beck.name</url>
             <organization>X1</organization>
             <organizationUrl>https://www.x1</organizationUrl>
             <roles>
