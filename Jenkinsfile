@@ -1,5 +1,5 @@
 node {
-  def mvnHome = tool 'Maven-3.6'
+  def mvnHome = tool 'Maven-3.8'
   env.JAVA_HOME = tool 'JDK-1.8'
   
   stage('Checkout') {
