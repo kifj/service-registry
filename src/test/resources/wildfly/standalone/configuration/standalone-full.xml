@@ -43,7 +43,7 @@
         <extension module="org.wildfly.iiop-openjdk"/>
     </extensions>
     <system-properties>
-        <property name="x1.service.registry.etcd" value="http://localhost:4001"/>
+        <property name="x1.service.registry.etcd" value="http://etcd.x1:4001"/>
         <property name="jboss.mail.server.host" value="mail.x1"/>
     </system-properties>
     <management>

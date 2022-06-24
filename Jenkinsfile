@@ -8,7 +8,7 @@ node {
   
   stage('Build') {
     try {
-      sh "${mvnHome}/bin/mvn -Punpack-wildfly,arq-managed clean package -Detcd.host=etcd.x1"
+      sh "${mvnHome}/bin/mvn -Punpack-wildfly,arq-managed clean package"
     } finally {
       junit '**/target/surefire-reports/TEST-*.xml'
       jacoco(execPattern: '**/**.exec')
