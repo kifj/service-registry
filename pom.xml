@@ -9,6 +9,10 @@
     <url>https://maven.x1/site/x1.service/service.registry/${project.version}</url>
 
     <properties>
+   		<wildfly.version>26.1.1.Final</wildfly.version>
+    	<arquillian.version>1.7.0.Alpha10</arquillian.version>
+	    <junit.jupiter.version>5.8.2</junit.jupiter.version>
+	    <jacoco.version>0.8.8</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>11</maven.compiler.target>
@@ -88,10 +92,17 @@
 
     <dependencyManagement>
         <dependencies>
+			<dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${arquillian.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>        
             <dependency>
                 <groupId>org.wildfly</groupId>
                 <artifactId>wildfly-spec-api</artifactId>
-                <version>26.1.1.Final</version>
+                <version>${wildfly.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -164,10 +175,55 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.22.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-jacoco</artifactId>
+            <version>1.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>        
     </dependencies>
 
     <build>
@@ -189,6 +245,27 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.12.0</version>
             </plugin>
+                <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>        
         </plugins>
         <extensions>
             <extension>
@@ -204,7 +281,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.3.0</version>
                 <configuration>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
@@ -245,7 +322,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.6.0.0</version>
+                <version>4.7.0.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
@@ -254,6 +331,23 @@
     </reporting>
 
     <profiles>
+        <profile>
+		<id>default</id>
+		<activation>
+		    <activeByDefault>true</activeByDefault>
+		</activation>
+		<build>
+		    <plugins>
+		        <plugin>
+		            <artifactId>maven-surefire-plugin</artifactId>
+		            <version>2.22.2</version>
+		            <configuration>
+		                <skip>true</skip>
+		            </configuration>
+		        </plugin>
+			</plugins>
+		</build>
+        </profile>         
         <profile>
             <id>github</id>
             <distributionManagement>
@@ -269,6 +363,97 @@
                 </snapshotRepository>
             </distributionManagement>
         </profile>
-    </profiles>
+        <profile>
+            <id>unpack-wildfly</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-dist</artifactId>
+                                            <version>${wildfly.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-config-files</id>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>target/wildfly-${wildfly.version}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/test/resources/wildfly</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-managed</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.core</artifactId>
+                    <version>${jacoco.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <systemPropertyVariables>
+                                <arquillian.launch>jbossas-managed</arquillian.launch>
+                                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                                <jboss.home>target/wildfly-${wildfly.version}</jboss.home>
+                            </systemPropertyVariables>
+                            <testFailureIgnore>true</testFailureIgnore>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+	</profiles>
 
 </project>

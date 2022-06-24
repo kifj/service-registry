@@ -7,7 +7,12 @@ node {
   }
   
   stage('Build') {
-    sh "${mvnHome}/bin/mvn clean package"
+    try {
+      sh "${mvnHome}/bin/mvn -Punpack-wildfly,arq-managed clean package"
+    } finally {
+      junit '**/target/surefire-reports/TEST-*.xml'
+      jacoco(execPattern: '**/**.exec')
+    }
   }
   
   stage('Publish') {
