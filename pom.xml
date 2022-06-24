@@ -17,6 +17,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
+        
+        <etcd.host>localhost</etcd.host>
+        <etcd.port>4001</etcd.port>
+        <jboss.home>target/wildfly-${wildfly.version}</jboss.home>
     </properties>
 
     <licenses>
@@ -447,6 +451,8 @@
                                 <arquillian.launch>jbossas-managed</arquillian.launch>
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                                 <jboss.home>target/wildfly-${wildfly.version}</jboss.home>
+                                <etcd.host>${etcd.host}</etcd.host>
+                                <etcd.port>${etcd.port}</etcd.port>
                             </systemPropertyVariables>
                             <testFailureIgnore>true</testFailureIgnore>
                         </configuration>
