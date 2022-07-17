@@ -9,10 +9,10 @@
     <url>https://maven.x1/site/x1.service/service.registry/${project.version}</url>
 
     <properties>
-   		<wildfly.version>26.1.1.Final</wildfly.version>
+        <wildfly.version>26.1.1.Final</wildfly.version>
     	<arquillian.version>1.7.0.Alpha10</arquillian.version>
-	    <junit.jupiter.version>5.8.2</junit.jupiter.version>
-	    <jacoco.version>0.8.8</jacoco.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <jacoco.version>0.8.8</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>11</maven.compiler.target>
@@ -94,7 +94,7 @@
 
     <dependencyManagement>
         <dependencies>
-			<dependency>
+            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>${arquillian.version}</version>
@@ -197,7 +197,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.22.0</version>
+            <version>3.23.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -273,7 +273,7 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>3.5.1</version>
+                <version>3.5.2</version>
             </extension>
         </extensions>
     </build>
@@ -324,7 +324,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.0.0</version>
+                <version>4.7.1.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
