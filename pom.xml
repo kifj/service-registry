@@ -10,8 +10,8 @@
 
     <properties>
         <wildfly.version>26.1.1.Final</wildfly.version>
-    	<arquillian.version>1.7.0.Alpha10</arquillian.version>
-        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+    	<arquillian.version>1.7.0.Alpha12</arquillian.version>
+        <junit.jupiter.version>5.9.0</junit.jupiter.version>
         <jacoco.version>0.8.8</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -283,7 +283,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.1</version>
                 <configuration>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
@@ -324,7 +324,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.1.0</version>
+                <version>4.7.1.1</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
@@ -396,7 +396,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.3.0</version>
                         <executions>
                             <execution>
                                 <id>copy-config-files</id>
