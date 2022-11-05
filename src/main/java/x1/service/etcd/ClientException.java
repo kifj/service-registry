@@ -2,7 +2,7 @@ package x1.service.etcd;
 
 import java.io.IOException;
 
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 
 public class ClientException extends IOException {
   private static final long serialVersionUID = 1L;

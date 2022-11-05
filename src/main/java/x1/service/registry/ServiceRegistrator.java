@@ -1,11 +1,11 @@
 package x1.service.registry;
 
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.inject.Inject;
+import jakarta.ejb.Schedule;
+import jakarta.ejb.Singleton;
+import jakarta.inject.Inject;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +16,8 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
