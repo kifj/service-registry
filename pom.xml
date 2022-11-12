@@ -2,14 +2,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>x1.wildfly</groupId>
     <artifactId>service-registry</artifactId>
-    <version>1.2.12-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
     <name>service-registry</name>
     <inceptionYear>2016</inceptionYear>
     <description>A service registry for wildfly and etcd</description>
     <url>https://maven.x1/site/x1.service/service.registry/${project.version}</url>
 
     <properties>
-        <wildfly.version>27.0.0.Beta1</wildfly.version>
+        <wildfly.version>27.0.0.Final</wildfly.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <junit.jupiter.version>5.9.1</junit.jupiter.version>
         <jacoco.version>0.8.8</jacoco.version>
