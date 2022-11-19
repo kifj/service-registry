@@ -1,6 +1,7 @@
 node {
   def mvnHome = tool 'Maven-3.8'
-  def branch = 'wildfly-26'
+  env.JAVA_HOME = tool 'JDK-17'
+  def branch = 'wildfly-27'
   
   stage('Checkout') {
     checkout scm
