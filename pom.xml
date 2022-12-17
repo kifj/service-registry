@@ -9,7 +9,7 @@
     <url>https://maven.x1/site/x1.service/service.registry/${project.version}</url>
 
     <properties>
-        <wildfly.version>27.0.0.Final</wildfly.version>
+        <wildfly.version>27.0.1.Final</wildfly.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <junit.jupiter.version>5.9.1</junit.jupiter.version>
         <jacoco.version>0.8.8</jacoco.version>
