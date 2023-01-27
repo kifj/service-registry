@@ -371,7 +371,7 @@
                     <url>https://maven.pkg.github.com/kifj/service-registry</url>
                 </repository>
                 <snapshotRepository>
-                    <id>github-snapshots</id>
+                    <id>github</id>
                     <name>GitHub kifj Apache Maven Packages</name>
                     <url>https://maven.pkg.github.com/kifj/service-registry</url>
                 </snapshotRepository>
