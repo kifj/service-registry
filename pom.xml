@@ -9,7 +9,7 @@
     <url>https://maven.x1/site/x1.service/service.registry/${project.version}</url>
 
     <properties>
-        <wildfly.version>26.1.2.Final</wildfly.version>
+        <wildfly.version>26.1.3.Final</wildfly.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <junit.jupiter.version>5.9.1</junit.jupiter.version>
         <jacoco.version>0.8.8</jacoco.version>
@@ -273,7 +273,7 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.3</version>
             </extension>
         </extensions>
     </build>
@@ -283,7 +283,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.4.2</version>
                 <configuration>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
@@ -324,7 +324,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.2.0</version>
+                <version>4.7.3.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
@@ -359,7 +359,7 @@
                     <url>https://maven.pkg.github.com/kifj/service-registry</url>
                 </repository>
                 <snapshotRepository>
-                    <id>github-snapshots</id>
+                    <id>github</id>
                     <name>GitHub kifj Apache Maven Packages</name>
                     <url>https://maven.pkg.github.com/kifj/service-registry</url>
                 </snapshotRepository>
