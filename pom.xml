@@ -10,8 +10,8 @@
 
     <properties>
         <wildfly.version>27.0.1.Final</wildfly.version>
-        <arquillian.version>1.7.0.Alpha13</arquillian.version>
-        <junit.jupiter.version>5.9.1</junit.jupiter.version>
+        <arquillian.version>1.7.0.Alpha14</arquillian.version>
+        <junit.jupiter.version>5.9.2</junit.jupiter.version>
         <jacoco.version>0.8.8</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -209,7 +209,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.23.1</version>
+            <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
