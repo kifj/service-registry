@@ -6,7 +6,7 @@
     <name>service-registry</name>
     <inceptionYear>2016</inceptionYear>
     <description>A service registry for wildfly and etcd</description>
-    <url>https://maven.x1/site/x1.service/service.registry/${project.version}</url>
+    <url>https://www.x1/nexus/repository/x1-site/${project.groupId}/${project.artifactId}/${project.version}/index.html</url>
 
     <properties>
         <wildfly.version>27.0.1.Final</wildfly.version>
@@ -33,17 +33,17 @@
         <site>
             <id>x1-site</id>
             <name>X1 Maven Site</name>
-            <url>dav:https://www.x1/nexus/content/repositories/x1-site/${project.groupId}/${project.artifactId}/${project.version}</url>
+            <url>dav:https://www.x1/nexus/repository/x1-site/${project.groupId}/${project.artifactId}/${project.version}</url>
         </site>
         <repository>
             <id>x1-repo</id>
             <name>X1 Maven Repository</name>
-            <url>https://www.x1/nexus/content/repositories/x1-repo</url>
+            <url>https://www.x1/nexus/repository/x1-repo</url>
         </repository>
         <snapshotRepository>
-            <id>x1-snapshot-repo</id>
+            <id>x1-snapshots</id>
             <name>X1 Maven Snapshot Repository</name>
-            <url>https://www.x1/nexus/content/repositories/x1-snapshot-repo</url>
+            <url>https://www.x1/nexus/repository/x1-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
