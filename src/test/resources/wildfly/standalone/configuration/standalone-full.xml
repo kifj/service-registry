@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <server xmlns="urn:jboss:domain:20.0">
     <extensions>
@@ -36,7 +36,6 @@
         <extension module="org.wildfly.extension.metrics"/>
         <extension module="org.wildfly.extension.microprofile.config-smallrye"/>
         <extension module="org.wildfly.extension.microprofile.jwt-smallrye"/>
-        <extension module="org.wildfly.extension.microprofile.opentracing-smallrye"/>
         <extension module="org.wildfly.extension.request-controller"/>
         <extension module="org.wildfly.extension.security.manager"/>
         <extension module="org.wildfly.extension.undertow"/>
@@ -129,9 +128,6 @@
             </logger>
             <logger category="org.apache.activemq">
                 <level name="WARN"/>
-            </logger>
-            <logger category="io.jaegertracing.internal">
-                <level name="ERROR"/>
             </logger>
             <root-logger>
                 <level name="INFO"/>
@@ -394,6 +390,22 @@
             <security server-requires-ssl="false" client-requires-ssl="false"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:infinispan:14.0">
+            <cache-container name="hibernate" marshaller="JBOSS" modules="org.infinispan.hibernate-cache">
+                <local-cache name="entity">
+                    <heap-memory size="10000"/>
+                    <expiration max-idle="100000"/>
+                </local-cache>
+                <local-cache name="local-query">
+                    <heap-memory size="10000"/>
+                    <expiration max-idle="100000"/>
+                </local-cache>
+                <local-cache name="timestamps">
+                    <expiration interval="0"/>
+                </local-cache>
+                <local-cache name="pending-puts">
+                    <expiration max-idle="60000"/>
+                </local-cache>
+            </cache-container>
             <cache-container name="ejb" default-cache="passivation" marshaller="PROTOSTREAM" aliases="sfsb" modules="org.wildfly.clustering.ejb.infinispan">
                 <local-cache name="passivation">
                     <expiration interval="0"/>
@@ -419,27 +431,6 @@
                 </local-cache>
                 <local-cache name="sso">
                     <expiration interval="0"/>
-                </local-cache>
-            </cache-container>
-            <cache-container name="server" default-cache="default" marshaller="PROTOSTREAM" modules="org.wildfly.clustering.singleton.server">
-                <local-cache name="default">
-                    <expiration interval="0"/>
-                </local-cache>
-            </cache-container>
-            <cache-container name="hibernate" marshaller="JBOSS" modules="org.infinispan.hibernate-cache">
-                <local-cache name="entity">
-                    <heap-memory size="10000"/>
-                    <expiration max-idle="100000"/>
-                </local-cache>
-                <local-cache name="local-query">
-                    <heap-memory size="10000"/>
-                    <expiration max-idle="100000"/>
-                </local-cache>
-                <local-cache name="timestamps">
-                    <expiration interval="0"/>
-                </local-cache>
-                <local-cache name="pending-puts">
-                    <expiration max-idle="60000"/>
                 </local-cache>
             </cache-container>
         </subsystem>
@@ -514,11 +505,6 @@
         <subsystem xmlns="urn:wildfly:metrics:1.0" security-enabled="false" exposed-subsystems="*" prefix="${wildfly.metrics.prefix:wildfly}"/>
         <subsystem xmlns="urn:wildfly:microprofile-config-smallrye:2.0"/>
         <subsystem xmlns="urn:wildfly:microprofile-jwt-smallrye:1.0"/>
-        <subsystem xmlns="urn:wildfly:microprofile-opentracing-smallrye:3.0" default-tracer="jaeger">
-            <jaeger-tracer name="jaeger">
-                <sampler-configuration sampler-type="const" sampler-param="1.0"/>
-            </jaeger-tracer>
-        </subsystem>
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
             <remote-naming/>
         </subsystem>
