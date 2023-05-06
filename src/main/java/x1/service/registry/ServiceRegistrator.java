@@ -85,6 +85,7 @@ public class ServiceRegistrator {
     } catch (Exception e) {
       LOG.error("connection failure for etcd at " + etcdService, e);
     }
+    LOG.info("Scanning base packages {}", Arrays.toString(basePackages));
     for (String packageName : basePackages) {
       Reflections reflections = new Reflections(packageName);
       reflections.getTypesAnnotatedWith(Service.class).forEach(this::register);

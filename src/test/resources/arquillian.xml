@@ -15,7 +15,7 @@
     </configuration>
   </container>
 
-  <container qualifier="jbossas-managed" default="false">
+  <container qualifier="arq-managed" default="false">
     <configuration>
       <property name="allowConnectingToRunningServer">true</property>
       <property name="serverConfig">standalone-full.xml</property>

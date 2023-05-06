@@ -127,7 +127,7 @@
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
+            <version>0.10.2</version>
         </dependency>
         <dependency>
             <groupId>jakarta.inject</groupId>
@@ -177,6 +177,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -440,14 +441,14 @@
                     <scope>test</scope>
                 </dependency>
                 <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
                     <groupId>org.jacoco</groupId>
                     <artifactId>org.jacoco.core</artifactId>
                     <version>${jacoco.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -458,7 +459,7 @@
                         <configuration>
                             <skip>false</skip>
                             <systemPropertyVariables>
-                                <arquillian.launch>jbossas-managed</arquillian.launch>
+                                <arquillian.launch>arq-managed</arquillian.launch>
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                                 <jboss.home>${jboss.home}</jboss.home>
                             </systemPropertyVariables>
