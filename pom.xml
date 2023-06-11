@@ -12,7 +12,7 @@
         <wildfly.version>28.0.1.Final</wildfly.version>
         <arquillian.version>1.7.0.Final</arquillian.version>
         <junit.jupiter.version>5.9.3</junit.jupiter.version>
-        <jacoco.version>0.8.8</jacoco.version>
+        <jacoco.version>0.8.10</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>17</maven.compiler.target>

@@ -40,22 +40,26 @@ public class ServiceRegistrator {
   private Properties properties = new Properties();
   private String[] basePackages;
   private boolean stopped;
-  
+
   @Inject
   @ConfigProperty(name = ETCD_SERVICE, defaultValue = EtcdClient.DEFAULT_ETCD_SERVICE)
   private URI etcdService;
-  
+
   @Inject
   @ConfigProperty(name = "x1.service.registry.registerIp", defaultValue = "false")
   private boolean registerIp;
-  
+
   @Inject
-  @ConfigProperty(name ="x1.service.registry.prefix", defaultValue = "/x1")
+  @ConfigProperty(name = "x1.service.registry.prefix", defaultValue = "/x1")
   private String prefix;
-  
+
   @Inject
   @ConfigProperty(name = "x1.service.registry.stage", defaultValue = "local")
   private String stage;
+
+  @Inject
+  @ConfigProperty(name = "x1.service.registry.enabled", defaultValue = "true")
+  private boolean enabled;
 
   @Inject
   private ServletContext context;
@@ -77,7 +81,7 @@ public class ServiceRegistrator {
 
   @Schedule(hour = "*", minute = "*/5", second = "0", persistent = false)
   public void update() {
-    if (!checkRunningServer()) {
+    if (!checkRunningServer() || !enabled) {
       return;
     }
     try (EtcdClient etcd = new EtcdClient(etcdService)) {
@@ -142,6 +146,8 @@ public class ServiceRegistrator {
         Result result = etcd.set(file, value, TTL);
         LOG.debug("set {} to {} -> {}", file, value, result);
       }
+    } catch (ClientException e) {
+      LOG.warn(e.getMessage());
     } catch (Exception e) {
       LOG.error(null, e);
     }
@@ -238,14 +244,16 @@ public class ServiceRegistrator {
   }
 
   private void unregister(Class<?> serviceClass, Service service) {
-    try (EtcdClient etcd = new EtcdClient(etcdService)) {
-      for (Protocol protocol : service.protocols()) {
-        LOG.info("unregister ({}) at etcd({})", service, etcdService);
-        String file = getDirectory(serviceClass, service, protocol) + "/" + getHostName();
-        unregister(etcd, file);
+    if (enabled) {
+      try (EtcdClient etcd = new EtcdClient(etcdService)) {
+        for (Protocol protocol : service.protocols()) {
+          LOG.info("unregister ({}) at etcd({})", service, etcdService);
+          String file = getDirectory(serviceClass, service, protocol) + "/" + getHostName();
+          unregister(etcd, file);
+        }
+      } catch (IOException e) {
+        LOG.error(null, e);
       }
-    } catch (IOException e) {
-      LOG.error(null, e);
     }
   }
 
