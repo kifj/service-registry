@@ -226,7 +226,7 @@ public class EtcdClient implements AutoCloseable {
     if (response == null || response.json == null) {
       return null;
     }
-    var result = parseResult(response.json);
+    var result = parseResult(response);
 
     if (result.isError() && !contains(expectedErrorCodes, result.getErrorCode())) {
       throw new ClientException(result.getMessage(), result);
@@ -234,12 +234,13 @@ public class EtcdClient implements AutoCloseable {
     return result;
   }
 
-  private Result parseResult(String json) throws ClientException {
+  private Result parseResult(JsonResponse response) throws ClientException {
     Result result;
     try {
-      result = gson.fromJson(json, Result.class);
+      result = gson.fromJson(response.json, Result.class);
     } catch (JsonParseException e) {
-      throw new ClientException("Error parsing response from etcd", e);
+      // this is probably plain text
+      throw new ClientException("Error parsing response from etcd: " + e.getMessage() + "\n" + response.json, response.httpStatusCode);
     }
     return result;
   }
@@ -302,7 +303,7 @@ public class EtcdClient implements AutoCloseable {
         try {
           json = EntityUtils.toString(httpResponse.getEntity());
         } catch (IOException e) {
-          throw new ClientException("Error reading response", e);
+          throw new ClientException("Error reading response: " + e.getMessage(), statusCode);
         }
       }
 
