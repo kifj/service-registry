@@ -36,6 +36,10 @@ public class ClientException extends IOException {
   public Result getResult() {
     return result;
   }
+  
+  public String getFullMessage() {
+    return "[Status: " + getHttpStatusCode() + "]: " + getMessage() + "(" + getResult() + ")";
+  }
 
   public boolean isEtcdError(Integer etcdCode) {
     return result != null && result.getErrorCode() != null && etcdCode.equals(result.getErrorCode());

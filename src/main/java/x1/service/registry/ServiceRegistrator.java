@@ -8,7 +8,6 @@ import javax.management.ObjectName;
 import jakarta.servlet.ServletContext;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
@@ -27,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import x1.service.etcd.ClientException;
 import x1.service.etcd.EtcdClient;
-import x1.service.etcd.Result;
 import static x1.service.Constants.*;
 
 @Singleton
@@ -67,7 +65,7 @@ public class ServiceRegistrator {
   @PostConstruct
   public void init() {
     mbeanServer = ManagementFactory.getPlatformMBeanServer();
-    try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("/service-registry.properties")) {
+    try (var is = this.getClass().getClassLoader().getResourceAsStream("/service-registry.properties")) {
       if (is != null) {
         LOG.debug("Loading service-registry.properties");
         properties.load(is);
@@ -84,14 +82,14 @@ public class ServiceRegistrator {
     if (!checkRunningServer() || !enabled) {
       return;
     }
-    try (EtcdClient etcd = new EtcdClient(etcdService)) {
+    try (var etcd = new EtcdClient(etcdService)) {
       LOG.info("connecting to etcd at {} -> version={}", etcdService, etcd.version());
     } catch (Exception e) {
       LOG.error("connection failure for etcd at " + etcdService, e);
     }
     LOG.info("Scanning base packages {}", Arrays.toString(basePackages));
-    for (String packageName : basePackages) {
-      Reflections reflections = new Reflections(packageName);
+    for (var packageName : basePackages) {
+      var reflections = new Reflections(packageName);
       reflections.getTypesAnnotatedWith(Service.class).forEach(this::register);
       reflections.getTypesAnnotatedWith(Services.class).forEach(this::registerAll);
     }
@@ -103,8 +101,8 @@ public class ServiceRegistrator {
 
   private boolean checkRunningServer() {
     try {
-      ObjectName name = new ObjectName("jboss.as:management-root=server");
-      String status = (String) mbeanServer.getAttribute(name, "serverState");
+      var name = new ObjectName("jboss.as:management-root=server");
+      var status = (String) mbeanServer.getAttribute(name, "serverState");
       return Arrays.asList("running", "reload-required", "restart-required").contains(status.toLowerCase());
     } catch (Exception e) {
       LOG.warn(e.getMessage());
@@ -114,15 +112,15 @@ public class ServiceRegistrator {
 
   @PreDestroy
   public void destroy() {
-    for (String packageName : basePackages) {
-      Reflections reflections = new Reflections(packageName);
+    for (var packageName : basePackages) {
+      var reflections = new Reflections(packageName);
       reflections.getTypesAnnotatedWith(Service.class).forEach(this::unregister);
       reflections.getTypesAnnotatedWith(Services.class).forEach(this::unregisterAll);
     }
   }
 
   private void registerAll(Class<?> serviceClass) {
-    for (Service service : serviceClass.getAnnotation(Services.class).services()) {
+    for (var service : serviceClass.getAnnotation(Services.class).services()) {
       register(serviceClass, service);
     }
   }
@@ -132,29 +130,29 @@ public class ServiceRegistrator {
   }
 
   private void register(Class<?> serviceClass, Service service) {
-    try (EtcdClient etcd = new EtcdClient(etcdService)) {
-      for (Protocol protocol : service.protocols()) {
+    try (var etcd = new EtcdClient(etcdService)) {
+      for (var protocol : service.protocols()) {
         if (stopped) {
           break;
         }
         LOG.info("register ({}) at etcd({})", service, etcdService);
-        String directory = getDirectory(serviceClass, service, protocol);
+        var directory = getDirectory(serviceClass, service, protocol);
         ensureDirectoryExists(etcd, directory);
-        String hostName = getHostName();
-        String file = directory + "/" + hostName;
-        String value = getValue(service, protocol, hostName);
-        Result result = etcd.set(file, value, TTL);
+        var hostName = getHostName();
+        var file = directory + "/" + hostName;
+        var value = getValue(service, protocol, hostName);
+        var result = etcd.set(file, value, TTL);
         LOG.debug("set {} to {} -> {}", file, value, result);
       }
     } catch (ClientException e) {
-      LOG.warn(e.getMessage());
+      LOG.warn(e.getFullMessage());
     } catch (Exception e) {
       LOG.error(null, e);
     }
   }
 
   private void ensureDirectoryExists(EtcdClient etcd, String path) throws ClientException {
-    Result result = etcd.get(path);
+    var result = etcd.get(path);
     if (result == null) {
       result = etcd.createDirectory(path);
       LOG.debug("create directory {} -> {}", path, result);
@@ -171,16 +169,16 @@ public class ServiceRegistrator {
   }
 
   private String getValue(Service service, Protocol protocol, String hostName) {
-    StringBuilder sb = new StringBuilder();
+    var sb = new StringBuilder();
     addLine(sb, HOST_NAME, hostName);
-    Integer port = getPort(protocol);
+    var port = getPort(protocol);
     if (port != null) {
       addLine(sb, PORT, port.toString());
     }
     if (protocol != null) {
       addLine(sb, PROTOCOL, protocol.getPrefix());
     }
-    String contextPath = getContext(service, context);
+    var contextPath = getContext(service, context);
     addLine(sb, CONTEXT, contextPath);
     addLine(sb, service.technology().getPropertyName(),
         getServiceValue(service, protocol, hostName, port, contextPath));
@@ -190,7 +188,7 @@ public class ServiceRegistrator {
 
   private String getServiceValue(Service service, Protocol protocol, String hostName, Integer port,
       String contextPath) {
-    String address = hostName;
+    var address = hostName;
     if (port != null) {
       address += ":" + port;
     }
@@ -234,7 +232,7 @@ public class ServiceRegistrator {
   }
 
   private void unregisterAll(Class<?> serviceClass) {
-    for (Service service : serviceClass.getAnnotation(Services.class).services()) {
+    for (var service : serviceClass.getAnnotation(Services.class).services()) {
       unregister(serviceClass, service);
     }
   }
@@ -245,10 +243,10 @@ public class ServiceRegistrator {
 
   private void unregister(Class<?> serviceClass, Service service) {
     if (enabled) {
-      try (EtcdClient etcd = new EtcdClient(etcdService)) {
-        for (Protocol protocol : service.protocols()) {
+      try (var etcd = new EtcdClient(etcdService)) {
+        for (var protocol : service.protocols()) {
           LOG.info("unregister ({}) at etcd({})", service, etcdService);
-          String file = getDirectory(serviceClass, service, protocol) + "/" + getHostName();
+          var file = getDirectory(serviceClass, service, protocol) + "/" + getHostName();
           unregister(etcd, file);
         }
       } catch (IOException e) {
@@ -259,10 +257,10 @@ public class ServiceRegistrator {
 
   private void unregister(EtcdClient etcd, String file) {
     try {
-      Result result = etcd.delete(file);
+      var result = etcd.delete(file);
       LOG.debug("delete {} -> {}", file, result);
     } catch (ClientException e) {
-      LOG.warn(e.getMessage());
+      LOG.warn(e.getFullMessage());
     }
   }
 

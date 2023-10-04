@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import x1.service.etcd.EtcdClient;
 import x1.service.etcd.Node;
-import x1.service.etcd.Result;
 import x1.service.registry.Protocol;
 import x1.service.registry.Technology;
 
@@ -38,10 +37,10 @@ public class Resolver {
 
   public List<Node> resolve(Technology technology, String serviceClass, String version, String stage,
       Protocol protocol) {
-    String directory = getDirectory(technology, serviceClass, version, stage, protocol);
+    var directory = getDirectory(technology, serviceClass, version, stage, protocol);
     List<Node> nodes = new ArrayList<>();
-    try (EtcdClient etcd = new EtcdClient(etcdService)) {
-      Result result = etcd.get(directory);
+    try (var etcd = new EtcdClient(etcdService)) {
+      var result = etcd.get(directory);
       if (result != null) {
         nodes = result.getNode().getNodes();
         LOG.trace("get {} -> {}", directory, result);
@@ -59,7 +58,7 @@ public class Resolver {
   }
 
   public Properties getProperties(Node node) {
-    Properties props = new Properties();
+    var props = new Properties();
     try {
       props.load(new StringReader(node.getValue()));
     } catch (IOException e) {

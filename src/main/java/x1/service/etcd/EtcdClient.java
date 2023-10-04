@@ -11,7 +11,6 @@ import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
@@ -44,9 +43,9 @@ public class EtcdClient implements AutoCloseable {
   private final URI baseUri;
 
   private static CloseableHttpAsyncClient buildDefaultHttpClient() {
-    RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(1000)
+    var requestConfig = RequestConfig.custom().setSocketTimeout(1000)
       .setConnectTimeout(1000).setConnectionRequestTimeout(1000).build();
-    CloseableHttpAsyncClient httpClient = HttpAsyncClients.custom().setDefaultRequestConfig(requestConfig).build();
+    var httpClient = HttpAsyncClients.custom().setDefaultRequestConfig(requestConfig).build();
     httpClient.start();
     return httpClient;
   }
@@ -59,10 +58,10 @@ public class EtcdClient implements AutoCloseable {
    * Retrieves a key. Returns null if not found.
    */
   public Result get(String key) throws ClientException {
-    URI uri = buildKeyUri(PATH_KEYS, key).build();
-    HttpGet request = new HttpGet(uri);
+    var uri = buildKeyUri(PATH_KEYS, key).build();
+    var request = new HttpGet(uri);
 
-    Result result = syncExecute(request, new Status[] { Status.OK, Status.NOT_FOUND }, ECODE_KEY_NOT_FOUND);
+    var result = syncExecute(request, new Status[] { Status.OK, Status.NOT_FOUND }, ECODE_KEY_NOT_FOUND);
     if (result.isError() && ECODE_KEY_NOT_FOUND.equals(result.getErrorCode())) {
       return null;
     }
@@ -73,8 +72,8 @@ public class EtcdClient implements AutoCloseable {
    * Deletes the given key
    */
   public Result delete(String key) throws ClientException {
-    URI uri = buildKeyUri(PATH_KEYS, key).build();
-    HttpDelete request = new HttpDelete(uri);
+    var uri = buildKeyUri(PATH_KEYS, key).build();
+    var request = new HttpDelete(uri);
 
     return syncExecute(request, new Status[] { Status.OK, Status.NOT_FOUND });
   }
@@ -113,7 +112,7 @@ public class EtcdClient implements AutoCloseable {
    * Lists a directory
    */
   public List<Node> listDirectory(String key) throws ClientException {
-    Result result = get(key);
+    var result = get(key);
     if (result == null || result.getNode() == null) {
       return new ArrayList<>();
     }
@@ -124,8 +123,8 @@ public class EtcdClient implements AutoCloseable {
    * Delete a directory
    */
   public Result deleteDirectory(String key) throws ClientException {
-    URI uri = buildKeyUri(PATH_KEYS, key).queryParam("dir", "true").build();
-    HttpDelete request = new HttpDelete(uri);
+    var uri = buildKeyUri(PATH_KEYS, key).queryParam("dir", "true").build();
+    var request = new HttpDelete(uri);
     return syncExecute(request, new Status[] { Status.ACCEPTED });
   }
 
@@ -151,12 +150,12 @@ public class EtcdClient implements AutoCloseable {
    * Watches the given subtree
    */
   public ListenableFuture<Result> watch(String key, Long index, boolean recursive) {
-    UriBuilder builder = buildKeyUri(PATH_KEYS, key).queryParam("wait", "true").queryParam("recursive", recursive);
+    var builder = buildKeyUri(PATH_KEYS, key).queryParam("wait", "true").queryParam("recursive", recursive);
     if (index != null) {
       builder = builder.queryParam("waitIndex", index);
     }
-    URI uri = builder.build();
-    HttpGet request = new HttpGet(uri);
+    var uri = builder.build();
+    var request = new HttpGet(uri);
     return asyncExecute(request, new Status[] { Status.OK });
   }
 
@@ -164,13 +163,13 @@ public class EtcdClient implements AutoCloseable {
    * Gets the etcd version
    */
   public String version() throws ClientException {
-    URI uri = baseUri.resolve("/version");
+    var uri = baseUri.resolve("/version");
 
-    HttpGet request = new HttpGet(uri);
+    var request = new HttpGet(uri);
 
     // Technically not JSON, but it'll work
     // This call is the odd one out
-    JsonResponse s = syncExecuteJson(request, Status.OK);
+    var s = syncExecuteJson(request, Status.OK);
     if (s.httpStatusCode != Status.OK) {
       throw new ClientException("Error while fetching versions", s.httpStatusCode);
     }
@@ -179,25 +178,25 @@ public class EtcdClient implements AutoCloseable {
 
   private Result set0(String key, List<BasicNameValuePair> data, Status[] httpErrorCodes, Integer... expectedErrorCodes)
       throws ClientException {
-    URI uri = buildKeyUri(PATH_KEYS, key).build();
-    HttpPut request = new HttpPut(uri);
-    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(data, Charsets.UTF_8);
+    var uri = buildKeyUri(PATH_KEYS, key).build();
+    var request = new HttpPut(uri);
+    var entity = new UrlEncodedFormEntity(data, Charsets.UTF_8);
     request.setEntity(entity);
     return syncExecute(request, httpErrorCodes, expectedErrorCodes);
   }
 
   public Result listChildren(String key) throws ClientException {
-    URI uri = buildKeyUri(PATH_KEYS, key).build();
-    HttpGet request = new HttpGet(uri);
+    var uri = buildKeyUri(PATH_KEYS, key).build();
+    var request = new HttpGet(uri);
     return syncExecute(request, new Status[] { Status.OK });
   }
 
   protected ListenableFuture<Result> asyncExecute(HttpUriRequest request, Status[] expectedHttpStatusCodes,
       final Integer... expectedErrorCodes) {
-    ListenableFuture<JsonResponse> json = asyncExecuteJson(request, expectedHttpStatusCodes);
+    var json = asyncExecuteJson(request, expectedHttpStatusCodes);
     return Futures.transformAsync(json, new AsyncFunction<JsonResponse, Result>() {
       public ListenableFuture<Result> apply(JsonResponse json) throws Exception {
-        Result result = jsonToResult(json, expectedErrorCodes);
+        var result = jsonToResult(json, expectedErrorCodes);
         return Futures.immediateFuture(result);
       }
     }, MoreExecutors.directExecutor());
@@ -216,7 +215,7 @@ public class EtcdClient implements AutoCloseable {
   }
 
   private ClientException unwrap(ExecutionException e) {
-    Throwable cause = e.getCause();
+    var cause = e.getCause();
     if (cause instanceof ClientException) {
       return (ClientException) cause;
     }
@@ -227,7 +226,7 @@ public class EtcdClient implements AutoCloseable {
     if (response == null || response.json == null) {
       return null;
     }
-    Result result = parseResult(response.json);
+    var result = parseResult(response.json);
 
     if (result.isError() && !contains(expectedErrorCodes, result.getErrorCode())) {
       throw new ClientException(result.getMessage(), result);
@@ -267,11 +266,11 @@ public class EtcdClient implements AutoCloseable {
   }
 
   private ListenableFuture<JsonResponse> asyncExecuteJson(HttpUriRequest request, Status[] expectedHttpStatusCodes) {
-    ListenableFuture<HttpResponse> response = asyncExecuteHttp(request);
+    var response = asyncExecuteHttp(request);
 
     return Futures.transformAsync(response, new AsyncFunction<HttpResponse, JsonResponse>() {
       public ListenableFuture<JsonResponse> apply(HttpResponse httpResponse) throws Exception {
-        JsonResponse json = extractJsonResponse(httpResponse, expectedHttpStatusCodes);
+        var json = extractJsonResponse(httpResponse, expectedHttpStatusCodes);
         return Futures.immediateFuture(json);
       }
     }, MoreExecutors.directExecutor());
@@ -294,8 +293,8 @@ public class EtcdClient implements AutoCloseable {
   private JsonResponse extractJsonResponse(HttpResponse httpResponse, Status[] expectedHttpStatusCodes)
       throws ClientException {
     try {
-      StatusLine statusLine = httpResponse.getStatusLine();
-      Status statusCode = Status.fromStatusCode(statusLine.getStatusCode());
+      var statusLine = httpResponse.getStatusLine();
+      var statusCode = Status.fromStatusCode(statusLine.getStatusCode());
 
       String json = null;
 

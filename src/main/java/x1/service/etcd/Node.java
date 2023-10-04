@@ -144,7 +144,7 @@ public class Node {
    */
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
+    var builder = new StringBuilder();
     builder.append("Node [key=");
     builder.append(key);
     builder.append(", createdIndex=");

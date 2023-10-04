@@ -126,7 +126,7 @@ public class Result {
    */
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
+    var builder = new StringBuilder();
     builder.append("Result [action=");
     builder.append(action);
     builder.append(", node=");
