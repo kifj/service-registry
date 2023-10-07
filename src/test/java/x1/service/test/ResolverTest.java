@@ -69,7 +69,7 @@ public class ResolverTest {
     assertThat(node).isNotNull();
     var props = resolver.getProperties(node);
     var port = 8443;
-    var context = "/" + APP_NAME_MAJOR_MINOR;    
+    var context = APP_NAME_MAJOR_MINOR;    
     var url = UriBuilder.fromUri(HTTPS.getPrefix() + "://" + hostname + ":" + port).path("{context}").path("/shares")
         .build(context);
     assertThat(props).containsEntry(BASE_URI, url.toString()).containsEntry(PORT, Integer.toString(port))
