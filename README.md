@@ -32,7 +32,7 @@ Protocols are HTTP, HTTPS, WS, WSS, EJB, AMQP, STOMP\_WS, STOMP\_WSS, JNP
 In etcd you will find the entries at the path
 
     /top-level/technology/interface/version/protcol/stage
-    e.g. /x1/rest/x1.stomp.rest.ShareResource/1.4/https/local
+    e.g. /x1/rest/my-service-path/1.0/https/local
     
 Each host has 1 entry, each entry consists of line with key=value, as in JAVA property files.
 Use the class x1.service.client.Resolver to retrieve and parse entries
