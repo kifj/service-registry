@@ -10,7 +10,7 @@
 
     <properties>
         <wildfly.version>30.0.0.Final</wildfly.version>
-        <arquillian.version>1.7.1.Final</arquillian.version>
+        <arquillian.version>1.8.0.Final</arquillian.version>
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
         <jacoco.version>0.8.11</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
