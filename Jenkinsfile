@@ -5,10 +5,11 @@ node {
   
   stage('Checkout') {
     checkout scm
+    echo "Branch $env.BRANCH_NAME"
   }
   
   stage('Build') {
-    try {
+    try {      
       sh "${mvnHome}/bin/mvn -Punpack-wildfly,arq-managed clean package"
     } finally {
       junit '**/target/surefire-reports/TEST-*.xml'
@@ -21,12 +22,13 @@ node {
   }
 
   stage('Sonar') {
-    sh "${mvnHome}/bin/mvn sonar:sonar -DskipTests -Dsonar.java.coveragePlugin=jacoco -Dsonar.jacoco.reportPath=target/jacoco.exec -Dsonar.host.url=https://www.x1/sonar -Dsonar.projectKey=x1.wildfly:service-registry:${branch} -Dsonar.projectName=service-registry:${branch}"
+    pom = readMavenPom file: 'pom.xml'
+    sh "${mvnHome}/bin/mvn sonar:sonar -DskipTests -Dsonar.java.coveragePlugin=jacoco -Dsonar.jacoco.reportPath=target/jacoco.exec -Dsonar.host.url=https://www.x1/sonar -Dsonar.projectKey=${pom.groupId}:${pom.artifactId}:${branch} -Dsonar.projectName=${pom.artifactId}:${branch}"
   }
   
   stage('dependencyTrack') {
     withCredentials([string(credentialsId: 'dtrack', variable: 'API_KEY')]) {
-      dependencyTrackPublisher artifact: 'target/bom.xml', projectName: 'service-registry', projectVersion: '1.3', synchronous: true, dependencyTrackApiKey: API_KEY, projectProperties: [group: 'x1.wildfly']
+      dependencyTrackPublisher artifact: 'target/bom.xml', projectName: ${pom.artifactId}, projectVersion: ${pom.version}, synchronous: true, dependencyTrackApiKey: API_KEY, projectProperties: [group: ${pom.groupId}]
     }
   }
 }
