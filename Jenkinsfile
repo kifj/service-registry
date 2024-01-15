@@ -1,11 +1,10 @@
 node {
   def mvnHome = tool 'Maven-3.9'
   env.JAVA_HOME = tool 'JDK-21'
-  def branch = $env.BRANCH_NAME
   
   stage('Checkout') {
     checkout scm
-    echo "Branch $branch"
+    echo "Branch $env.BRANCH_NAME"
   }
   
   stage('Build') {
@@ -23,7 +22,7 @@ node {
 
   stage('Sonar') {
     pom = readMavenPom file: 'pom.xml'
-    sh "${mvnHome}/bin/mvn sonar:sonar -DskipTests -Dsonar.java.coveragePlugin=jacoco -Dsonar.jacoco.reportPath=target/jacoco.exec -Dsonar.host.url=https://www.x1/sonar -Dsonar.projectKey=${pom.groupId}:${pom.artifactId}:${branch} -Dsonar.projectName=${pom.artifactId}:${branch}"
+    sh "${mvnHome}/bin/mvn sonar:sonar -DskipTests -Dsonar.java.coveragePlugin=jacoco -Dsonar.jacoco.reportPath=target/jacoco.exec -Dsonar.host.url=https://www.x1/sonar -Dsonar.projectKey=${pom.groupId}:${pom.artifactId}:$env.BRANCH_NAME -Dsonar.projectName=${pom.artifactId}:$env.BRANCH_NAME"
   }
   
   stage('dependencyTrack') {
