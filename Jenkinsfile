@@ -1,11 +1,11 @@
 node {
   def mvnHome = tool 'Maven-3.9'
   env.JAVA_HOME = tool 'JDK-21'
-  def branch = 'wildfly-30'
+  def branch = $env.BRANCH_NAME
   
   stage('Checkout') {
     checkout scm
-    echo "Branch $env.BRANCH_NAME"
+    echo "Branch $branch"
   }
   
   stage('Build') {
