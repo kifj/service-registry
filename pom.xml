@@ -238,10 +238,12 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.12.0</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
             </plugin>
@@ -327,7 +329,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.2.5</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
@@ -359,8 +360,8 @@
         <build>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.2.3</version>
                     <configuration>
                         <skip>true</skip>
                     </configuration>
@@ -473,6 +474,7 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
