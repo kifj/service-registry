@@ -479,7 +479,7 @@
                         <configuration>
                             <skip>false</skip>
                             <systemPropertyVariables>
-                                <arquillian.launch>arq-managed</arquillian.launch>
+                                <arquillian.launch>managed</arquillian.launch>
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                                 <jboss.home>${jboss.home}</jboss.home>
                             </systemPropertyVariables>
