@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Publish') {
           steps {
-            sh 'mvn -B deploy site-deploy -DskipTests'
+            sh '$MAVEN_HOME/bin/mvn -B deploy site-deploy -DskipTests'
           }
         }
       }
