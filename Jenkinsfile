@@ -37,5 +37,10 @@ pipeline {
       }
     }
   }
+  post {
+    always {
+      recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml')]
+    }
+  }
 }
 
