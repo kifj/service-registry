@@ -37,11 +37,5 @@ pipeline {
       }
     }
   }
-  post {
-    always {
-      junit '**/target/surefire-reports/TEST-*.xml'
-      jacoco(execPattern: '**/**.exec')
-    }
-  }
 }
 
