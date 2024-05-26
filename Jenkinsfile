@@ -14,6 +14,7 @@ pipeline {
         docker {
           image 'registry.x1/j7beck/x1-maven3:jdk-1.8.0'
           args '-v $HOME/.m2/repository:/var/lib/jenkins/.m2/repository'
+	  reuseNode true
         }
       }
       stages {
