@@ -9,23 +9,24 @@ pipeline {
         checkout scm
       }
     }
-    stage('Build') {
+    stage('Build & Publish') {
       agent {
         docker {
           image 'registry.x1/j7beck/x1-maven3:jdk-1.8.0'
           args '-v $HOME/.m2/repository:/var/lib/jenkins/.m2/repository'
         }
       }
-      steps {
-        sh '$MAVEN_HOME/bin/mvn -B clean package'
-      }
-    }
-    stage('Publish') {
-      tools {
-        jdk 'JDK-17'
-      }
-      steps {
-        sh 'mvn -B deploy site-deploy -DskipTests'
+      stages {
+        stage('Build') {
+          steps {
+            sh '$MAVEN_HOME/bin/mvn -B clean package'
+          }
+        }
+        stage('Publish') {
+          steps {
+            sh 'mvn -B deploy site-deploy -DskipTests'
+          }
+        }
       }
     }
     stage('Sonar') {
