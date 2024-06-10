@@ -434,6 +434,7 @@
                                 </goals>
                                 <configuration>
                                     <outputDirectory>target/wildfly-${wildfly.version}</outputDirectory>
+                                    <overwrite>true</overwrite>
                                     <resources>
                                         <resource>
                                             <directory>src/test/resources/wildfly</directory>
