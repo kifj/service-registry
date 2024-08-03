@@ -26,6 +26,8 @@ pipeline {
         stage('Publish') {
           steps {
             sh '$MAVEN_HOME/bin/mvn -B deploy site-deploy -DskipTests'
+            stash name: 'coverage', includes: '**/jacoco.xml'
+            recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml')]
           }
         }
       }
@@ -35,14 +37,9 @@ pipeline {
         jdk 'JDK-17'
       }
       steps {
+        unstash name: 'coverage' 
         sh 'mvn sonar:sonar -DskipTests -Dsonar.java.coveragePlugin=jacoco -Dsonar.jacoco.reportPath=target/jacoco.exec -Dsonar.host.url=https://www.x1/sonar'
       }
     }
   }
-  post {
-    always {
-      recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml')]
-    }
-  }
 }
-
