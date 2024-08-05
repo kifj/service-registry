@@ -2,14 +2,12 @@ package x1.service.etcd;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriBuilder;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -43,8 +41,8 @@ public class EtcdClient implements AutoCloseable {
   private final URI baseUri;
 
   private static CloseableHttpAsyncClient buildDefaultHttpClient() {
-    var requestConfig = RequestConfig.custom().setSocketTimeout(1000)
-      .setConnectTimeout(1000).setConnectionRequestTimeout(1000).build();
+    var requestConfig = RequestConfig.custom().setSocketTimeout(1000).setConnectTimeout(1000)
+        .setConnectionRequestTimeout(1000).build();
     var httpClient = HttpAsyncClients.custom().setDefaultRequestConfig(requestConfig).build();
     httpClient.start();
     return httpClient;
@@ -90,8 +88,7 @@ public class EtcdClient implements AutoCloseable {
    */
 
   public Result set(String key, String value, Integer ttl) throws ClientException {
-    List<BasicNameValuePair> data = Lists.newArrayList();
-    data.add(new BasicNameValuePair("value", value));
+    List<BasicNameValuePair> data = Lists.newArrayList(new BasicNameValuePair("value", value));
     if (ttl != null) {
       data.add(new BasicNameValuePair("ttl", Integer.toString(ttl)));
     }
@@ -103,8 +100,7 @@ public class EtcdClient implements AutoCloseable {
    * Creates a directory
    */
   public Result createDirectory(String key) throws ClientException {
-    List<BasicNameValuePair> data = Lists.newArrayList();
-    data.add(new BasicNameValuePair("dir", "true"));
+    List<BasicNameValuePair> data = Lists.newArrayList(new BasicNameValuePair("dir", "true"));
     return set0(key, data, new Status[] { Status.OK, Status.CREATED });
   }
 
@@ -114,7 +110,7 @@ public class EtcdClient implements AutoCloseable {
   public List<Node> listDirectory(String key) throws ClientException {
     var result = get(key);
     if (result == null || result.getNode() == null) {
-      return new ArrayList<>();
+      return Lists.newArrayList();
     }
     return result.getNode().getNodes();
   }
@@ -132,10 +128,8 @@ public class EtcdClient implements AutoCloseable {
    * Sets a key to a new value, if the value is a specified value
    */
   public Result cas(String key, String prevValue, String value) throws ClientException {
-    List<BasicNameValuePair> data = Lists.newArrayList();
-    data.add(new BasicNameValuePair("value", value));
-    data.add(new BasicNameValuePair("prevValue", prevValue));
-
+    List<BasicNameValuePair> data = Lists.newArrayList(new BasicNameValuePair("value", value),
+        new BasicNameValuePair("prevValue", prevValue));
     return set0(key, data, new Status[] { Status.OK, Status.PRECONDITION_FAILED }, 101);
   }
 
@@ -240,7 +234,8 @@ public class EtcdClient implements AutoCloseable {
       result = gson.fromJson(response.json, Result.class);
     } catch (JsonParseException e) {
       // this is probably plain text
-      throw new ClientException("Error parsing response from etcd: " + e.getMessage() + "\n" + response.json, response.httpStatusCode);
+      throw new ClientException("Error parsing response from etcd: " + e.getMessage() + "\n" + response.json,
+          response.httpStatusCode);
     }
     return result;
   }
@@ -349,7 +344,7 @@ public class EtcdClient implements AutoCloseable {
     if (response == null) {
       return;
     }
-    HttpEntity entity = response.getEntity();
+    var entity = response.getEntity();
     if (entity != null) {
       EntityUtils.consumeQuietly(entity);
     }
