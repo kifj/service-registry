@@ -10,7 +10,7 @@
 
     <properties>
         <wildfly.version>33.0.0.Final</wildfly.version>
-        <arquillian.version>1.9.0.Final</arquillian.version>
+        <arquillian.version>1.9.1.Final</arquillian.version>
         <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
         <junit.jupiter.version>5.10.3</junit.jupiter.version>
         <jacoco.version>0.8.12</jacoco.version>
