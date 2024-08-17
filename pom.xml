@@ -11,8 +11,8 @@
     <properties>
         <wildfly.version>33.0.0.Final</wildfly.version>
         <arquillian.version>1.9.1.Final</arquillian.version>
-        <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
-        <junit.jupiter.version>5.10.3</junit.jupiter.version>
+        <shrinkwrap-resolver.version>3.3.1</shrinkwrap-resolver.version>
+        <junit.jupiter.version>5.11.0</junit.jupiter.version>
         <jacoco.version>0.8.12</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -185,7 +185,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.15.0</version><!--$NO-MVN-MAN-VER$-->
+            <version>3.16.0</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -195,19 +195,19 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.jupiter.version}</version>
+            <version>${junit.jupiter.version}</version><!--$NO-MVN-MAN-VER$-->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>${junit.jupiter.version}</version>
+            <version>${junit.jupiter.version}</version><!--$NO-MVN-MAN-VER$-->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.26.0</version>
+            <version>3.26.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
