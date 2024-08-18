@@ -12,7 +12,7 @@
         <wildfly.version>33.0.0.Final</wildfly.version>
         <arquillian.version>1.9.1.Final</arquillian.version>
         <shrinkwrap-resolver.version>3.3.1</shrinkwrap-resolver.version>
-        <junit.jupiter.version>5.11.0</junit.jupiter.version>
+        <junit.jupiter.version>5.10.3</junit.jupiter.version>
         <jacoco.version>0.8.12</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
