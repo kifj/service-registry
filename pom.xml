@@ -12,7 +12,7 @@
         <wildfly.version>34.0.0.Final</wildfly.version>
         <arquillian.version>1.9.1.Final</arquillian.version>
         <shrinkwrap-resolver.version>3.3.1</shrinkwrap-resolver.version>
-        <junit.jupiter.version>5.11.2</junit.jupiter.version>
+        <junit.jupiter.version>5.11.3</junit.jupiter.version>
         <jacoco.version>0.8.12</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -254,7 +254,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -312,7 +312,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -350,7 +350,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.8.6.4</version>
+                <version>4.8.6.5</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
