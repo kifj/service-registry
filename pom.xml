@@ -9,9 +9,9 @@
     <url>https://www.x1/nexus/repository/x1-site/${project.groupId}/${project.artifactId}/${project.version}/index.html</url>
 
     <properties>
-        <wildfly.version>34.0.0.Final</wildfly.version>
+        <wildfly.version>34.0.1.Final</wildfly.version>
         <arquillian.version>1.9.1.Final</arquillian.version>
-        <shrinkwrap-resolver.version>3.3.1</shrinkwrap-resolver.version>
+        <shrinkwrap-resolver.version>3.3.2</shrinkwrap-resolver.version>
         <junit.jupiter.version>5.11.3</junit.jupiter.version>
         <jacoco.version>0.8.12</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -207,7 +207,7 @@
  		<dependency>
         	<groupId>org.junit.platform</groupId>
         	<artifactId>junit-platform-commons</artifactId>
-        	<version>1.11.2</version><!--$NO-MVN-MAN-VER$-->
+        	<version>1.11.3</version><!--$NO-MVN-MAN-VER$-->
             <scope>test</scope>
       </dependency>        
         <dependency>
@@ -335,7 +335,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.1</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
@@ -350,7 +350,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.8.6.5</version>
+                <version>4.8.6.6</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>

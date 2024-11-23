@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import jakarta.annotation.PostConstruct;
@@ -103,7 +104,7 @@ public class ServiceRegistrator {
     try {
       var name = new ObjectName("jboss.as:management-root=server");
       var status = (String) mbeanServer.getAttribute(name, "serverState");
-      return Arrays.asList("running", "reload-required", "restart-required").contains(status.toLowerCase());
+      return List.of("running", "reload-required", "restart-required").contains(status.toLowerCase());
     } catch (Exception e) {
       LOG.warn(e.getMessage());
       return false;
