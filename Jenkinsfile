@@ -18,6 +18,7 @@ node {
       sh "${mvnHome}/bin/mvn -Punpack-wildfly,arq-managed clean package"
     } finally {
       junit '**/target/surefire-reports/TEST-*.xml'
+      recordCoverage(tools: [[parser: 'JACOCO']])
     }
   }
   
