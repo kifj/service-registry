@@ -105,6 +105,9 @@
             <logger category="com.arjuna">
                 <level name="WARN"/>
             </logger>
+            <logger category="com.networknt.schema">
+                <level name="WARN"/>
+            </logger>
             <logger category="io.jaegertracing.Configuration">
                 <level name="WARN"/>
             </logger>
@@ -157,15 +160,12 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:bean-validation:1.0"/>
         <subsystem xmlns="urn:jboss:domain:core-management:1.0"/>
-        <subsystem xmlns="urn:jboss:domain:datasources:7.0">
+        <subsystem xmlns="urn:jboss:domain:datasources:7.2">
             <datasources>
                 <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
                     <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=${wildfly.h2.compatibility.mode:REGULAR}</connection-url>
                     <driver>h2</driver>
-                    <security>
-                        <user-name>sa</user-name>
-                        <password>sa</password>
-                    </security>
+                    <security user-name="sa" password="sa"/>
                 </datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
@@ -195,7 +195,7 @@
             <spec-descriptor-property-replacement>false</spec-descriptor-property-replacement>
             <concurrent>
                 <context-services>
-                    <context-service name="default" jndi-name="java:jboss/ee/concurrency/context/default" use-transaction-setup-provider="false"/>
+                    <context-service name="default" jndi-name="java:jboss/ee/concurrency/context/default"/>
                 </context-services>
                 <managed-thread-factories>
                     <managed-thread-factory name="default" jndi-name="java:jboss/ee/concurrency/factory/default" context-service="default"/>
@@ -238,7 +238,7 @@
                     <file-data-store name="default-file-store" path="timer-service-data" relative-to="jboss.server.data.dir"/>
                 </data-stores>
             </timer-service>
-            <remote cluster="ejb" connectors="http-remoting-connector" thread-pool-name="default">
+            <remote connectors="http-remoting-connector" thread-pool-name="default">
                 <channel-creation-options>
                     <option name="MAX_OUTBOUND_MESSAGES" value="1234" type="remoting"/>
                 </channel-creation-options>
@@ -438,7 +438,7 @@
         <subsystem xmlns="urn:jboss:domain:io:4.0" default-worker="default">
             <worker name="default"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:jaxrs:3.0"/>
+        <subsystem xmlns="urn:jboss:domain:jaxrs:4.0"/>
         <subsystem xmlns="urn:jboss:domain:jca:6.0">
             <archive-validation enabled="true" fail-on-error="true" fail-on-warn="false"/>
             <bean-validation enabled="true"/>

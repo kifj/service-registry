@@ -212,7 +212,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.27.1</version>
+            <version>3.27.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -319,11 +319,27 @@
                 <version>3.2.1</version>
                 <configuration>
                     <aggregate>true</aggregate>
-                    <tags>
-                        <tag>TODO</tag>
-                        <tag>FIXME</tag>
-                        <tag>XXX</tag>
-                    </tags>
+                    <tagListOptions>
+                        <tagClasses>
+                            <tagClass>
+                                <displayName>TODO Work</displayName>
+                                <tags>
+                                    <tag>
+                                        <matchString>TODO</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>FIXME</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>XXX</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                </tags>
+                            </tagClass>
+                        </tagClasses>
+                    </tagListOptions>
                 </configuration>
             </plugin>
             <plugin>
@@ -335,9 +351,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.5.2</version>
-                <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
-                </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -349,7 +362,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.8.6.6</version>
+                <version>4.9.1.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
@@ -408,7 +421,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.7.1</version>
+                        <version>3.8.1</version>
                         <executions>
                             <execution>
                                 <id>unpack</id>
