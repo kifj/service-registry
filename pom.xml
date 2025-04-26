@@ -12,7 +12,7 @@
         <wildfly.version>36.0.0.Final</wildfly.version>
         <arquillian.version>1.9.4.Final</arquillian.version>
         <shrinkwrap-resolver.version>3.3.4</shrinkwrap-resolver.version>
-        <jacoco.version>0.8.12</jacoco.version>
+        <jacoco.version>0.8.13</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>21</maven.compiler.target>
@@ -239,7 +239,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.14.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -302,7 +302,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.9.0</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
