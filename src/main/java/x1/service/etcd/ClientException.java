@@ -1,10 +1,12 @@
 package x1.service.etcd;
 
 import java.io.IOException;
+import java.io.Serial;
 
 import jakarta.ws.rs.core.Response.Status;
 
 public class ClientException extends IOException {
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final Status httpStatusCode;

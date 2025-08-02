@@ -15,7 +15,7 @@ public enum Protocol {
     this.prefix = prefix;
   }
   
-  private String prefix;
+  private final String prefix;
   
   public String getPrefix() {
     return prefix;

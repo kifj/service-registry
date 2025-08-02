@@ -126,23 +126,22 @@ public class Result {
    */
   @Override
   public String toString() {
-    var builder = new StringBuilder();
-    builder.append("Result [action=");
-    builder.append(action);
-    builder.append(", node=");
-    builder.append(node);
-    builder.append(", prevNode=");
-    builder.append(prevNode);
-    builder.append(", errorCode=");
-    builder.append(errorCode);
-    builder.append(", message=");
-    builder.append(message);
-    builder.append(", cause=");
-    builder.append(cause);
-    builder.append(", errorIndex=");
-    builder.append(errorIndex);
-    builder.append("]");
-    return builder.toString();
+      String builder = "Result [action=" +
+              action +
+              ", node=" +
+              node +
+              ", prevNode=" +
+              prevNode +
+              ", errorCode=" +
+              errorCode +
+              ", message=" +
+              message +
+              ", cause=" +
+              cause +
+              ", errorIndex=" +
+              errorIndex +
+              "]";
+    return builder;
   }
 
 }

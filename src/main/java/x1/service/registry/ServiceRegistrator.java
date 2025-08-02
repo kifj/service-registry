@@ -36,7 +36,7 @@ public class ServiceRegistrator {
   private static final String ETCD_SERVICE = "x1.service.registry.etcd";
 
   private MBeanServer mbeanServer;
-  private Properties properties = new Properties();
+  private final Properties properties = new Properties();
   private String[] basePackages;
   private boolean stopped;
 
@@ -86,7 +86,7 @@ public class ServiceRegistrator {
     try (var etcd = new EtcdClient(etcdService)) {
       LOG.info("connecting to etcd at {} -> version={}", etcdService, etcd.version());
     } catch (Exception e) {
-      LOG.error("connection failure for etcd at " + etcdService, e);
+      LOG.error("connection failure for etcd at {}", etcdService, e);
     }
     LOG.info("Scanning base packages {}", Arrays.toString(basePackages));
     for (var packageName : basePackages) {
@@ -193,36 +193,27 @@ public class ServiceRegistrator {
     if (port != null) {
       address += ":" + port;
     }
-    switch (service.technology()) {
-    case SOAP:
-    case REST:
-    case AMQP:
-    case WEBSOCKETS:
-      return protocol.getPrefix() + "://" + address + contextPath + service.value();
-    case STOMP:
-      return protocol.getPrefix() + "://" + address + contextPath;
-    default:
-      return service.value();
-    }
+      return switch (service.technology()) {
+          case SOAP, REST, AMQP, WEBSOCKETS -> protocol.getPrefix() + "://" + address + contextPath + service.value();
+          case STOMP -> protocol.getPrefix() + "://" + address + contextPath;
+          default -> service.value();
+      };
   }
 
   private String getDestination(Service service) {
-    switch (service.technology()) {
-    case STOMP:
-      return service.value();
-    default:
-      return null;
-    }
+      return switch (service.technology()) {
+          case STOMP -> service.value();
+          default -> null;
+      };
   }
 
   private String getContext(Service service, ServletContext context) {
-    switch (service.technology()) {
-    case STOMP:
-      // pre-defined in JBoss
-      return "/stomp";
-    default:
-      return context.getContextPath();
-    }
+      return switch (service.technology()) {
+          case STOMP ->
+              // pre-defined in JBoss
+                  "/stomp";
+          default -> context.getContextPath();
+      };
   }
 
   private StringBuilder addLine(StringBuilder sb, String key, String value) {

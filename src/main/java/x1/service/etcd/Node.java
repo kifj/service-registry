@@ -144,25 +144,24 @@ public class Node {
    */
   @Override
   public String toString() {
-    var builder = new StringBuilder();
-    builder.append("Node [key=");
-    builder.append(key);
-    builder.append(", createdIndex=");
-    builder.append(createdIndex);
-    builder.append(", modifiedIndex=");
-    builder.append(modifiedIndex);
-    builder.append(", value=");
-    builder.append(value);
-    builder.append(", expiration=");
-    builder.append(expiration);
-    builder.append(", ttl=");
-    builder.append(ttl);
-    builder.append(", dir=");
-    builder.append(dir);
-    builder.append(", nodes=");
-    builder.append(nodes);
-    builder.append("]");
-    return builder.toString();
+      String builder = "Node [key=" +
+              key +
+              ", createdIndex=" +
+              createdIndex +
+              ", modifiedIndex=" +
+              modifiedIndex +
+              ", value=" +
+              value +
+              ", expiration=" +
+              expiration +
+              ", ttl=" +
+              ttl +
+              ", dir=" +
+              dir +
+              ", nodes=" +
+              nodes +
+              "]";
+    return builder;
   }
 
 }

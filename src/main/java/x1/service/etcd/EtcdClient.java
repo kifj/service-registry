@@ -23,7 +23,6 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -188,11 +187,9 @@ public class EtcdClient implements AutoCloseable {
   protected ListenableFuture<Result> asyncExecute(HttpUriRequest request, Status[] expectedHttpStatusCodes,
       final Integer... expectedErrorCodes) {
     var json = asyncExecuteJson(request, expectedHttpStatusCodes);
-    return Futures.transformAsync(json, new AsyncFunction<JsonResponse, Result>() {
-      public ListenableFuture<Result> apply(JsonResponse json) throws Exception {
-        var result = jsonToResult(json, expectedErrorCodes);
+    return Futures.transformAsync(json, j -> {
+        var result = jsonToResult(j, expectedErrorCodes);
         return Futures.immediateFuture(result);
-      }
     }, MoreExecutors.directExecutor());
   }
 
@@ -241,12 +238,12 @@ public class EtcdClient implements AutoCloseable {
   }
 
   private static boolean contains(Object[] list, Object find) {
-    for (int i = 0; i < list.length; i++) {
-      if (list[i] == find) {
-        return true;
+      for (Object o : list) {
+          if (o == find) {
+              return true;
+          }
       }
-    }
-    return false;
+      return false;
   }
 
   private JsonResponse syncExecuteJson(HttpUriRequest request, Status... expectedHttpStatusCodes)
@@ -264,11 +261,9 @@ public class EtcdClient implements AutoCloseable {
   private ListenableFuture<JsonResponse> asyncExecuteJson(HttpUriRequest request, Status[] expectedHttpStatusCodes) {
     var response = asyncExecuteHttp(request);
 
-    return Futures.transformAsync(response, new AsyncFunction<HttpResponse, JsonResponse>() {
-      public ListenableFuture<JsonResponse> apply(HttpResponse httpResponse) throws Exception {
+    return Futures.transformAsync(response, httpResponse -> {
         var json = extractJsonResponse(httpResponse, expectedHttpStatusCodes);
         return Futures.immediateFuture(json);
-      }
     }, MoreExecutors.directExecutor());
   }
 
@@ -276,8 +271,8 @@ public class EtcdClient implements AutoCloseable {
    * We need the status code & the response to parse an error response.
    */
   private static class JsonResponse {
-    private String json;
-    private Status httpStatusCode;
+    private final String json;
+    private final Status httpStatusCode;
 
     public JsonResponse(String json, Status statusCode) {
       this.json = json;
@@ -323,18 +318,18 @@ public class EtcdClient implements AutoCloseable {
   private ListenableFuture<HttpResponse> asyncExecuteHttp(HttpUriRequest request) {
     final SettableFuture<HttpResponse> future = SettableFuture.create();
 
-    httpClient.execute(request, new FutureCallback<HttpResponse>() {
-      public void completed(HttpResponse result) {
-        future.set(result);
-      }
+    httpClient.execute(request, new FutureCallback<>() {
+        public void completed(HttpResponse result) {
+            future.set(result);
+        }
 
-      public void failed(Exception ex) {
-        future.setException(ex);
-      }
+        public void failed(Exception ex) {
+            future.setException(ex);
+        }
 
-      public void cancelled() {
-        future.setException(new InterruptedException());
-      }
+        public void cancelled() {
+            future.setException(new InterruptedException());
+        }
     });
 
     return future;

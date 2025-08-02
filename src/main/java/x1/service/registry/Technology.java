@@ -19,5 +19,5 @@ public enum Technology {
     return propertyName;
   }
 
-  private String propertyName;
+  private final String propertyName;
 }
