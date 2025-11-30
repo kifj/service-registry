@@ -12,7 +12,7 @@
         <wildfly.version>38.0.0.Final</wildfly.version>
         <arquillian.version>1.10.0.Final</arquillian.version>
         <shrinkwrap-resolver.version>3.3.4</shrinkwrap-resolver.version>
-        <jacoco.version>0.8.13</jacoco.version>
+        <jacoco.version>0.8.14</jacoco.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>21</maven.compiler.target>
@@ -348,7 +348,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.9.7.0</version>
+                <version>4.9.8.1</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
