@@ -144,7 +144,7 @@ public class Node {
    */
   @Override
   public String toString() {
-      String builder = "Node [key=" +
+      return "Node [key=" +
               key +
               ", createdIndex=" +
               createdIndex +
@@ -161,7 +161,6 @@ public class Node {
               ", nodes=" +
               nodes +
               "]";
-    return builder;
   }
 
 }

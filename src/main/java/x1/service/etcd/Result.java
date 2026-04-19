@@ -126,7 +126,7 @@ public class Result {
    */
   @Override
   public String toString() {
-      String builder = "Result [action=" +
+      return "Result [action=" +
               action +
               ", node=" +
               node +
@@ -141,7 +141,6 @@ public class Result {
               ", errorIndex=" +
               errorIndex +
               "]";
-    return builder;
   }
 
 }
