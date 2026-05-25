@@ -6,7 +6,7 @@ properties([
 
 node {
   def mvnHome = tool 'Maven-3.9'
-  env.JAVA_HOME = tool 'JDK-21'
+  env.JAVA_HOME = tool 'JDK-25'
   
   stage('Checkout') {
     checkout scm
