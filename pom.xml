@@ -244,7 +244,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.5</version>
+                <version>3.5.6</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -254,12 +254,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.21.0</version>
+                <version>3.22.0</version>
             </plugin>
             <plugin>
                 <groupId>org.cyclonedx</groupId>
@@ -307,7 +307,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.2</version>
                 <configuration>
                     <aggregate>true</aggregate>
                     <tagListOptions>
@@ -336,7 +336,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.5.5</version>
+                <version>3.5.6</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -348,7 +348,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.9.8.3</version>
+                <version>4.10.2.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
@@ -407,7 +407,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.9.0</version>
+                        <version>3.11.0</version>
                         <executions>
                             <execution>
                                 <id>unpack</id>
@@ -422,7 +422,7 @@
                                             <artifactId>wildfly-dist</artifactId>
                                             <version>${wildfly.version}</version>
                                             <type>zip</type>
-                                            <overWrite>false</overWrite>
+                                            <overwrite>false</overwrite>
                                             <outputDirectory>target</outputDirectory>
                                         </artifactItem>
                                     </artifactItems>
@@ -432,7 +432,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.3.1</version>
+                        <version>3.5.0</version>
                         <executions>
                             <execution>
                                 <id>copy-config-files</id>
@@ -442,7 +442,7 @@
                                 </goals>
                                 <configuration>
                                     <outputDirectory>target/wildfly-${wildfly.version}</outputDirectory>
-                                    <overwrite>true</overwrite>
+                                    <changeDetection>always</changeDetection>
                                     <resources>
                                         <resource>
                                             <directory>src/test/resources/wildfly</directory>
