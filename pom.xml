@@ -422,7 +422,7 @@
                                             <artifactId>wildfly-dist</artifactId>
                                             <version>${wildfly.version}</version>
                                             <type>zip</type>
-                                            <overwrite>false</overwrite>
+                                            <overWrite>false</overWrite>
                                             <outputDirectory>target</outputDirectory>
                                         </artifactItem>
                                     </artifactItems>
