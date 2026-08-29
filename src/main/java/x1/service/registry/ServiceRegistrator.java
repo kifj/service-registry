@@ -21,7 +21,8 @@ import jakarta.annotation.PreDestroy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.reflections.Reflections;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,9 +91,10 @@ public class ServiceRegistrator {
     }
     LOG.info("Scanning base packages {}", Arrays.toString(basePackages));
     for (var packageName : basePackages) {
-      var reflections = new Reflections(packageName);
-      reflections.getTypesAnnotatedWith(Service.class).forEach(this::register);
-      reflections.getTypesAnnotatedWith(Services.class).forEach(this::registerAll);
+      try (ScanResult scanResult = new ClassGraph().acceptPackages(packageName).enableAnnotationInfo().scan()) {
+        scanResult.getClassesWithAnnotation(Service.class.getName()).loadClasses().forEach(this::register);
+        scanResult.getClassesWithAnnotation(Services.class.getName()).loadClasses().forEach(this::registerAll);
+      }
     }
   }
 
@@ -114,9 +116,10 @@ public class ServiceRegistrator {
   @PreDestroy
   public void destroy() {
     for (var packageName : basePackages) {
-      var reflections = new Reflections(packageName);
-      reflections.getTypesAnnotatedWith(Service.class).forEach(this::unregister);
-      reflections.getTypesAnnotatedWith(Services.class).forEach(this::unregisterAll);
+      try (ScanResult scanResult = new ClassGraph().acceptPackages(packageName).enableAnnotationInfo().scan()) {
+        scanResult.getClassesWithAnnotation(Service.class.getName()).loadClasses().forEach(this::unregister);
+        scanResult.getClassesWithAnnotation(Services.class.getName()).loadClasses().forEach(this::unregisterAll);
+      }
     }
   }
 

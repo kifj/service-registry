@@ -2,6 +2,7 @@ package x1.service.etcd;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -21,7 +22,6 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -173,7 +173,7 @@ public class EtcdClient implements AutoCloseable {
       throws ClientException {
     var uri = buildKeyUri(PATH_KEYS, key).build();
     var request = new HttpPut(uri);
-    var entity = new UrlEncodedFormEntity(data, Charsets.UTF_8);
+    var entity = new UrlEncodedFormEntity(data, StandardCharsets.UTF_8);
     request.setEntity(entity);
     return syncExecute(request, httpErrorCodes, expectedErrorCodes);
   }
@@ -270,15 +270,7 @@ public class EtcdClient implements AutoCloseable {
   /**
    * We need the status code & the response to parse an error response.
    */
-  private static class JsonResponse {
-    private final String json;
-    private final Status httpStatusCode;
-
-    public JsonResponse(String json, Status statusCode) {
-      this.json = json;
-      this.httpStatusCode = statusCode;
-    }
-
+  private record JsonResponse(String json, Status httpStatusCode) {
   }
 
   private JsonResponse extractJsonResponse(HttpResponse httpResponse, Status[] expectedHttpStatusCodes)
