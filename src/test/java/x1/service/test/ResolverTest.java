@@ -43,7 +43,7 @@ public class ResolverTest {
   @Deployment
   public static Archive<?> createTestArchive() {
     var libraries = Maven.resolver().loadPomFromFile("pom.xml")
-        .resolve("org.reflections:reflections", "org.assertj:assertj-core")
+        .resolve("io.github.classgraph:classgraph", "org.assertj:assertj-core")
         .withTransitivity().asFile();
 
     return ShrinkWrap.create(WebArchive.class, APP_NAME_MAJOR_MINOR + ".war").addPackages(true, "x1.service")
